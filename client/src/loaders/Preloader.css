@@ -1,0 +1,56 @@
+/* Preloader container */
+.preloader {
+  position: fixed;
+  width: 100vw;              
+  height: 100vh;             
+  background-size: contain;    
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background-color: white;  
+}
+
+.loading-wheel {
+  width: 50vw;   
+  height: 50vw;  
+  animation: rotate 2s linear infinite;
+  transform-origin: center center;
+  object-fit: contain;
+  max-width: 200px;
+  max-height: 200px;
+
+}
+
+
+@media (min-width: 768px) {
+  .loading-wheel {
+    width: 40vw;  /* Smaller relative size for tablets and up */
+    height: 40vw;
+    max-width: 250px;
+    max-height: 250px;
+  }
+}
+
+/* Adjust for very large screens */
+@media (min-width: 1024px) {
+  .loading-wheel {
+    width: 50vw; 
+    height: 50vw;
+    max-width: 300px;
+    max-height: 300px;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
