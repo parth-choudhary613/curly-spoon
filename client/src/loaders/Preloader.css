@@ -13,6 +13,8 @@
   top: 0;
   left: 0;
   background-color: white;  
+  opacity: 1;
+  transition: opacity 1s ease; 
 }
 
 .loading-wheel {
@@ -53,4 +55,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.main-content {
+  opacity: 0;
+  transition: opacity 0.9s ease-in; /* 1-second fade-in */
+}
+
+.main-content.fade-in {
+  opacity: 1;
 }

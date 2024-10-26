@@ -9,19 +9,19 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // Simulated loading time
+    }, 2500); // Preloader duration (3 seconds)
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="App">
-      {loading ? <Preloader /> : 
-      <>
-      
-      </>
-    }
-    <LoginPage/>
+      <div className={`preloader ${!loading ? 'fade-out' : ''}`}>
+        <Preloader />
+      </div>
+      <div className={`main-content ${!loading ? 'fade-in' : ''}`}>
+        <LoginPage />
+      </div>
     </div>
   );
 }

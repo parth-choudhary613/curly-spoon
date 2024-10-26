@@ -1,0 +1,19 @@
+@font-face {
+    font-family: '911Porscha';
+    src: url('./fonts/911porschav3expand.ttf') format('truetype'); /* Use one source here */
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  /* Global Font Application */
+  body {
+    font-family: '911Porscha', sans-serif;
+  }
+  .main-content {
+    opacity: 0;
+    transition: opacity 0.9s ease 0.9; /* 1s transition with 1s delay */
+  }
+  
+  .main-content.loaded {
+    opacity: 0.9;
+  }
