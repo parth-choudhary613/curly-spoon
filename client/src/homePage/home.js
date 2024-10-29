@@ -1,5 +1,5 @@
 import React from 'react'
-
+import DesignSection from './designSection'
 function home() {
   return (
     <>
@@ -18,8 +18,8 @@ function home() {
     <button className="bg-[#5b4636] text-white py-2 sm:py-3 px-6 sm:px-8 rounded-lg mt-4 sm:mt-6 hover:bg-[#483729] transition duration-300">
         START
     </button>
+<DesignSection/>
 </div>
-
     </>
   )
 }
