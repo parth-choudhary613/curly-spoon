@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Preloader from './loaders/Preloader';
 import './App.css';
-// import LoginPage from './loginPage/loginsignUP';
-import HomePage from './homePage/navBar'
+import LoginPage from './loginPage/loginsignUP';
+// import HomePage from './homePage/navBar'
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -20,10 +20,10 @@ function App() {
       <div className={`preloader ${!loading ? 'fade-out' : ''}`}>
         <Preloader />
       </div>
-      {/* <div className={`main-content ${!loading ? 'fade-in' : ''}`}>
+      <div className={`main-content ${!loading ? 'fade-in' : ''}`}>
         <LoginPage />
-      </div> */}
-      <HomePage/>
+      </div>
+      {/* <HomePage/> */}
 
     </div>
   );
