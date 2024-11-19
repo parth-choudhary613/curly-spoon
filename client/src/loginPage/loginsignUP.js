@@ -93,15 +93,16 @@ function Login({ setAuth }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+  
     setLoading(true);
     try {
       if (isSignUp) {
-        const response = await axios.post('http://localhost:5000/api/signup', formData);
+        // Update the endpoint to match the backend
+        const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
         alert('Sign Up Successful!');
         setIsSignUp(false);
       } else {
-        const response = await axios.post('http://localhost:5000/api/login', {
+        const response = await axios.post('http://localhost:5000/api/auth/login', {
           email: formData.email,
           password: formData.password,
         });
@@ -110,11 +111,14 @@ function Login({ setAuth }) {
         navigate('/home');
       }
     } catch (error) {
+      console.error(error); // Logs full error details for debugging
       alert(error.response?.data?.message || 'An error occurred. Please try again.');
-    } finally {
+    }
+     finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="relative h-screen">
