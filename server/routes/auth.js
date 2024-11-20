@@ -1,38 +1,46 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Assuming you have a User model in models/User.js
+const User = require('../models/User');
+const validator = require('validator');
 require('dotenv').config();
 
 const router = express.Router();
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, phone, password } = req.body;
 
   try {
-    // Check if all fields are provided
-    if (!name || !email || !password) {
+    // Validation
+    if (!name || !email || !phone || !password) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    if (!validator.isEmail(email.trim())) {
+      return res.status(400).json({ message: 'Invalid email address.' });
+    }
+
+    if (!/^\d{10}$/.test(phone.trim())) {
+      return res.status(400).json({ message: 'Invalid phone number. It must be exactly 10 digits.' });
+    }
+
+    // Check if user exists
+    const existingUser = await User.findOne({ email: email.trim().toLowerCase() });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists.' });
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password.trim(), 10);
 
-    // Create a new user
+    // Create and save user
     const newUser = new User({
-      name,
-      email,
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
       password: hashedPassword,
     });
-
-    // Save the user to the database
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully.' });
@@ -47,24 +55,20 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if all fields are provided
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required.' });
     }
 
-    // Check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    // Compare the passwords
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(password.trim(), user.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: 'Invalid credentials.' });
     }
 
-    // Generate JWT
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET,
@@ -74,11 +78,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json({
       message: 'Login successful.',
       token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+      user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -86,7 +86,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Middleware to verify JWT
+// Middleware for JWT Authentication
 const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
 
@@ -104,7 +104,7 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-// Example Protected Route
+// Protected Route Example
 router.get('/protected', authenticateToken, (req, res) => {
   res.status(200).json({ message: 'Access granted to protected route.', user: req.user });
 });

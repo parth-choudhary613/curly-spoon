@@ -97,15 +97,23 @@ function Login({ setAuth }) {
     setLoading(true);
     try {
       if (isSignUp) {
-        // Update the endpoint to match the backend
-        const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
+        const response = await axios.post('http://localhost:5000/api/auth/signup', {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          password: formData.password,
+        });
+        console.log("Signup Response:", response.data);
         alert('Sign Up Successful!');
         setIsSignUp(false);
-      } else {
+      }
+      
+      else {
         const response = await axios.post('http://localhost:5000/api/auth/login', {
           email: formData.email,
           password: formData.password,
         });
+        console.log("Login Response:", response.data);
         alert('Login Successful!');
         setAuth(true);
         navigate('/home');
