@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    if (!validator.isEmail(email.trim())) {
+    if (!validator.isEmail(email)) {
       return res.status(400).json({ message: 'Invalid email address.' });
     }
 
@@ -61,11 +61,13 @@ router.post('/login', async (req, res) => {
 
     const user = await User.findOne({ email: email.trim().toLowerCase() });
     if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
+      console.log('User not found:', email.trim().toLowerCase());
+      return res.status(404).json({ message: 'Invalid credentials.' });
     }
 
     const isPasswordCorrect = await bcrypt.compare(password.trim(), user.password);
     if (!isPasswordCorrect) {
+      console.log('Password mismatch for user:', email.trim().toLowerCase());
       return res.status(400).json({ message: 'Invalid credentials.' });
     }
 
@@ -75,6 +77,7 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
+    console.log('Login successful for user:', email.trim().toLowerCase());
     res.status(200).json({
       message: 'Login successful.',
       token,
@@ -85,6 +88,7 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error.', error });
   }
 });
+
 
 // Middleware for JWT Authentication
 const authenticateToken = (req, res, next) => {
