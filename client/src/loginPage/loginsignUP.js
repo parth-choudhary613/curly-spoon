@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import React, { useState } from 'react';
 import video from '../assets/porsche 911 - Made with Clipchamp.mp4';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,52 +14,7 @@ function Login({ setAuth }) {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const containerRef = useRef();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const container = containerRef.current;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 5;
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
-
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshStandardMaterial({
-      color: isSignUp ? 0x007bff : 0xff5733,
-    });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    const pointLight = new THREE.PointLight(0xffffff, 1);
-    pointLight.position.set(5, 5, 5);
-    scene.add(ambientLight, pointLight);
-
-    let frameId;
-    const animate = () => {
-      cube.rotation.x += 0.02;
-      cube.rotation.y += 0.02;
-      renderer.render(scene, camera);
-      frameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(frameId);
-      renderer.dispose();
-      container.removeChild(renderer.domElement);
-    };
-  }, [isSignUp]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -93,7 +47,7 @@ function Login({ setAuth }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-  
+
     setLoading(true);
     try {
       if (isSignUp) {
@@ -106,9 +60,7 @@ function Login({ setAuth }) {
         console.log("Signup Response:", response.data);
         alert('Sign Up Successful!');
         setIsSignUp(false);
-      }
-      
-      else {
+      } else {
         const response = await axios.post('http://localhost:5000/api/auth/login', {
           email: formData.email,
           password: formData.password,
@@ -119,18 +71,15 @@ function Login({ setAuth }) {
         navigate('/home');
       }
     } catch (error) {
-      console.error(error); // Logs full error details for debugging
+      console.error(error);
       alert(error.response?.data?.message || 'An error occurred. Please try again.');
-    }
-     finally {
+    } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="relative h-screen">
-      <div className="absolute inset-0 z-0" ref={containerRef}></div>
       <video
         autoPlay
         loop
