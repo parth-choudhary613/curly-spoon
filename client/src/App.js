@@ -10,7 +10,10 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    // Simulating auth check
     const timer = setTimeout(() => {
+      const storedAuth = localStorage.getItem('authToken'); // Assume token stored during login
+      setIsAuthenticated(!!storedAuth); // Authenticate if token exists
       setLoading(false);
     }, 2500);
 
@@ -19,6 +22,11 @@ function App() {
 
   const handleAuthentication = (authState) => {
     setIsAuthenticated(authState);
+    if (authState) {
+      localStorage.setItem('authToken', 'yourAuthToken'); // Store token
+    } else {
+      localStorage.removeItem('authToken'); // Clear token
+    }
   };
 
   if (loading) {
@@ -32,7 +40,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Redirect to login if unauthenticated */}
+        {/* Login Route */}
         <Route
           path="/"
           element={
@@ -43,7 +51,7 @@ function App() {
             )
           }
         />
-        {/* Protected Home Page */}
+        {/* Home Route (Direct Access in Development) */}
         <Route
           path="/home"
           element={

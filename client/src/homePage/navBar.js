@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Image from '../assets/homeLogo.png';
 import bgImage from '../assets/2025-Porsche-Taycan-002-1440sw.jpg';
 import Home from './home';
-
+import About from "../aboutpage/about"
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -11,6 +11,7 @@ function Navbar() {
   };
 
   return (
+    <>
     <div 
       className="bg-cover bg-center" 
       style={{ backgroundImage: `url(${bgImage})` }}
@@ -60,8 +61,10 @@ function Navbar() {
         )}
       </nav>
      
-      <Home />
+    <Home />
     </div>
+    <About/>
+    </>
   );
 }
 
