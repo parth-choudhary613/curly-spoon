@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Preloader from './loaders/Preloader';
 import LoginPage from './loginPage/loginsignUP';
-import HomePage from './homePage/navBar'; // Assuming this is your main navbar and home component
+import HomePage from './homePage/home'; // Assuming this is your main navbar and home component
 import './App.css';
 
 function App() {

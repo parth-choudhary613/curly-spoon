@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 import Image from '../assets/homeLogo.png';
-import bgImage from '../assets/2025-Porsche-Taycan-002-1440sw.jpg';
-import Home from './home';
-import About from "../aboutpage/about"
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
+  
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
+  
   return (
     <>
-    <div 
-      className="bg-cover bg-center" 
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
-      <nav className="bg-transparent">
+  
+      <nav className="bg-transparent fixed w-full">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center mx-auto lg:mx-0 transform transition duration-300 ease-in-out hover:scale-110">
             <img
@@ -60,10 +54,10 @@ function Navbar() {
           </div>
         )}
       </nav>
+      
      
-    <Home />
-    </div>
-    <About/>
+  
+
     </>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+
 import Photo from '../assets/2025-Porsche-Taycan-002-1440sw.jpg';
 
 const DesignSection = () => {
@@ -9,7 +10,8 @@ const DesignSection = () => {
 
   return (
     <>
-      <div className="relative flex flex-col items-center bg-white glassmorphism p-6 sm:p-6  md:p-6 lg:p-20 rounded-lg shadow-lg max-w-5xl mx-auto">
+    
+      <div className="relative flex flex-col items-center bg-white glassmorphism p-6 sm:p-6  md:p-6 lg:p-20 rounded-lg shadow-lg max-w-5xl mx-auto max-h-full">
   {/* Gradient Overlay */}
   <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-100 rounded-lg pointer-events-none">
   </div>
@@ -44,6 +46,7 @@ const DesignSection = () => {
           ))}
         </Slider>
       </div>
+  
     </>
   );
 };
